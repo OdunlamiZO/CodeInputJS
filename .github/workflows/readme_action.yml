@@ -1,0 +1,22 @@
+name: Update README
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      
+      - name: Update README
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          export COMMIT_HASH
+          envsubst < README_TEMPLATE.txt > README.md
+          git config --global user.name "OdunlamiZO"
+          git config --global user.email "odunlamizacchaeus@gmail.com"
+          git add README.md
+          git commit -m "Update README"
+          git push
